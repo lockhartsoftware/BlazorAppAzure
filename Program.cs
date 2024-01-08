@@ -1,10 +1,18 @@
 using BlazorAppAzure.Components;
+using BlazorAppAzure.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Database Context.
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 var app = builder.Build();
 
